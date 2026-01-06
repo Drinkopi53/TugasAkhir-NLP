@@ -38,21 +38,52 @@ except FileNotFoundError:
 
 # 2. Definisi Lexicon
 indo_markers = {
-    'aku', 'kamu', 'dia', 'kita', 'mereka', 'ini', 'itu', 'dan', 'atau', 'tapi',
-    'yang', 'di', 'ke', 'dari', 'bisa', 'mau', 'sudah', 'udah', 'lagi', 'lg',
-    'gak', 'ga', 'nggak', 'tak', 'jangan', 'sama', 'bgt', 'banget', 'dong', 'sih',
-    'kok', 'deh', 'kan', 'kalo', 'kalau', 'buat', 'utk', 'untuk', 'dgn', 'dengan',
-    'apa', 'kenapa', 'gimana', 'siapa', 'kapan', 'ya', 'yuk', 'wkwk', 'hehe', 
-    'pake', 'pakai', 'ada', 'jadi', 'jd', 'bukan', 'krn', 'karena', 'yg', 'tidak'
+    # Kata Ganti & Tunjuk
+    'aku', 'kamu', 'dia', 'kita', 'mereka', 'ini', 'itu', 'sini', 'situ', 'sana',
+    'gue', 'lu', 'lo', 'gw', 'el', 'si', 'sang', 'para', 'anda', 'saya', 'kalian',
+    # Kata Sambung & Depan
+    'dan', 'atau', 'tapi', 'tetapi', 'karena', 'krn', 'jika', 'kalau', 'kalo', 
+    'yang', 'yg', 'di', 'ke', 'dari', 'pada', 'dalam', 'untuk', 'utk', 'buat', 
+    'dengan', 'dgn', 'sama', 'bisa', 'dapat', 'akan', 'ingin', 'mau', 'sudah', 
+    'telah', 'sedang', 'lagi', 'lg', 'masih', 'belum', 'blm',
+    # Kata Tanya & Seru
+    'apa', 'kenapa', 'knp', 'mengapa', 'gimana', 'bagaimana', 'siapa', 'kapan', 
+    'dimana', 'kok', 'sih', 'dong', 'deh', 'kan', 'yuk', 'wkwk', 'hehe', 'haha',
+    'wah', 'nah', 'loh', 'lah', 'kah', 'pun',
+    # Kata Kerja & Sifat Umum
+    'makan', 'minum', 'tidur', 'jalan', 'lihat', 'dengar', 'baca', 'tulis', 
+    'beli', 'jual', 'bayar', 'kerja', 'main', 'suka', 'cinta', 'benci', 'marah',
+    'senang', 'sedih', 'takut', 'berani', 'malu', 'bangga', 'bagus', 'jelek',
+    'baik', 'jahat', 'benar', 'salah', 'cepat', 'lambat', 'mahal', 'murah',
+    'terima', 'kasih', 'tolong', 'maaf', 'selamat', 'pagi', 'siang', 'malam',
+    'rumah', 'orang', 'anak', 'hari', 'tahun', 'waktu', 'uang', 'harga',
+    'tidak', 'tak', 'gak', 'ga', 'nggak', 'bukan', 'jangan', 'usah'
 }
 
 eng_markers = {
-    'i', 'you', 'he', 'she', 'we', 'they', 'it', 'this', 'that', 'and', 'or', 'but',
-    'which', 'who', 'what', 'where', 'when', 'why', 'how', 'is', 'am', 'are', 'was',
-    'were', 'be', 'been', 'have', 'has', 'had', 'do', 'does', 'did', 'can', 'could',
-    'will', 'would', 'should', 'to', 'of', 'in', 'on', 'at', 'for', 'with', 'by',
-    'from', 'about', 'just', 'like', 'so', 'not', 'no', 'yes', 'please', 'thanks',
-    'my', 'your', 'actually', 'literally', 'basically', 'prefer', 'guys', 'sorry'
+    # Pronouns & Prepositions
+    'i', 'you', 'he', 'she', 'we', 'they', 'it', 'this', 'that', 'these', 'those',
+    'my', 'your', 'his', 'her', 'our', 'their', 'its', 'mine', 'yours',
+    'in', 'on', 'at', 'to', 'for', 'with', 'by', 'from', 'about', 'of', 'as',
+    'into', 'like', 'through', 'after', 'over', 'between', 'out', 'against',
+    # Conjunctions & Verbs (Auxiliary)
+    'and', 'or', 'but', 'so', 'because', 'if', 'when', 'where', 'why', 'how',
+    'is', 'am', 'are', 'was', 'were', 'be', 'been', 'being',
+    'have', 'has', 'had', 'do', 'does', 'did', 'done',
+    'can', 'could', 'will', 'would', 'shall', 'should', 'may', 'might', 'must',
+    # Common Verbs (Action) - INI YANG PENTING DITAMBAH
+    'want', 'need', 'know', 'think', 'take', 'see', 'get', 'give', 'go', 'come',
+    'make', 'look', 'use', 'find', 'tell', 'ask', 'work', 'seem', 'feel', 'try',
+    'leave', 'call', 'drink', 'eat', 'sleep', 'run', 'walk', 'talk', 'speak',
+    'say', 'help', 'start', 'stop', 'move', 'write', 'read', 'pay', 'buy', 'sell',
+    # Common Adjectives & Adverbs
+    'good', 'bad', 'great', 'high', 'low', 'big', 'small', 'long', 'short',
+    'new', 'old', 'right', 'wrong', 'happy', 'sad', 'angry', 'afraid', 'brave',
+    'beautiful', 'ugly', 'expensive', 'cheap', 'fast', 'slow', 'hard', 'soft',
+    'actually', 'literally', 'basically', 'totally', 'honestly', 'probably',
+    'maybe', 'please', 'thanks', 'sorry', 'excuse', 'hello', 'hi', 'bye',
+    'not', 'no', 'yes', 'yeah', 'yep', 'nope', 'never', 'always', 'ever',
+    'day', 'night', 'time', 'year', 'people', 'way', 'life', 'man', 'woman'
 }
 
 def automated_labeling(text):
