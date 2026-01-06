@@ -37,13 +37,14 @@ except FileNotFoundError:
     ]})
 
 # 2. Definisi Lexicon
+# CATATAN: Kata-kata ambiguous yang sering muncul di konteks Indonesia dihapus
 indo_markers = {
     # Kata Ganti & Tunjuk
     'aku', 'kamu', 'dia', 'kita', 'mereka', 'ini', 'itu', 'sini', 'situ', 'sana',
-    'gue', 'lu', 'lo', 'gw', 'el', 'si', 'sang', 'para', 'anda', 'saya', 'kalian',
+    'gue', 'lu', 'lo', 'gw', 'anda', 'saya', 'kalian',
     # Kata Sambung & Depan
     'dan', 'atau', 'tapi', 'tetapi', 'karena', 'krn', 'jika', 'kalau', 'kalo', 
-    'yang', 'yg', 'di', 'ke', 'dari', 'pada', 'dalam', 'untuk', 'utk', 'buat', 
+    'yang', 'yg', 'dari', 'pada', 'dalam', 'untuk', 'utk', 'buat', 
     'dengan', 'dgn', 'sama', 'bisa', 'dapat', 'akan', 'ingin', 'mau', 'sudah', 
     'telah', 'sedang', 'lagi', 'lg', 'masih', 'belum', 'blm',
     # Kata Tanya & Seru
@@ -52,41 +53,44 @@ indo_markers = {
     'wah', 'nah', 'loh', 'lah', 'kah', 'pun',
     # Kata Kerja & Sifat Umum
     'makan', 'minum', 'tidur', 'jalan', 'lihat', 'dengar', 'baca', 'tulis', 
-    'beli', 'jual', 'bayar', 'kerja', 'main', 'suka', 'cinta', 'benci', 'marah',
+    'beli', 'jual', 'bayar', 'kerja', 'suka', 'cinta', 'benci', 'marah',
     'senang', 'sedih', 'takut', 'berani', 'malu', 'bangga', 'bagus', 'jelek',
     'baik', 'jahat', 'benar', 'salah', 'cepat', 'lambat', 'mahal', 'murah',
     'terima', 'kasih', 'tolong', 'maaf', 'selamat', 'pagi', 'siang', 'malam',
     'rumah', 'orang', 'anak', 'hari', 'tahun', 'waktu', 'uang', 'harga',
-    'tidak', 'tak', 'gak', 'ga', 'nggak', 'bukan', 'jangan', 'usah'
+    'tidak', 'tak', 'gak', 'ga', 'nggak', 'bukan', 'jangan', 'usah', 'udah'
 }
 
 eng_markers = {
-    # Pronouns & Prepositions
-    'i', 'you', 'he', 'she', 'we', 'they', 'it', 'this', 'that', 'these', 'those',
-    'my', 'your', 'his', 'her', 'our', 'their', 'its', 'mine', 'yours',
-    'in', 'on', 'at', 'to', 'for', 'with', 'by', 'from', 'about', 'of', 'as',
-    'into', 'like', 'through', 'after', 'over', 'between', 'out', 'against',
-    # Conjunctions & Verbs (Auxiliary)
-    'and', 'or', 'but', 'so', 'because', 'if', 'when', 'where', 'why', 'how',
-    'is', 'am', 'are', 'was', 'were', 'be', 'been', 'being',
-    'have', 'has', 'had', 'do', 'does', 'did', 'done',
+    # Pronouns & Prepositions (hapus yang ambiguous: in, on, as, be, so)
+    'i', 'you', 'he', 'she', 'we', 'they', 'this', 'that', 'these', 'those',
+    'my', 'your', 'his', 'her', 'our', 'their', 'mine', 'yours',
+    'for', 'with', 'from', 'about', 'into', 'through', 'after', 'over', 'between', 'against',
+    # Conjunctions & Verbs (Auxiliary) - hapus yang ambiguous
+    'and', 'because', 'when', 'where', 'why', 'how',
+    'is', 'am', 'are', 'was', 'were', 'been', 'being',
+    'have', 'has', 'had', 'does', 'did', 'done',
     'can', 'could', 'will', 'would', 'shall', 'should', 'may', 'might', 'must',
-    # Common Verbs (Action) - INI YANG PENTING DITAMBAH
-    'want', 'need', 'know', 'think', 'take', 'see', 'get', 'give', 'go', 'come',
-    'make', 'look', 'use', 'find', 'tell', 'ask', 'work', 'seem', 'feel', 'try',
+    # Common Verbs (Action)
+    'want', 'need', 'know', 'think', 'take', 'see', 'get', 'give', 'come',
+    'make', 'look', 'use', 'find', 'tell', 'ask', 'seem', 'feel', 'try',
     'leave', 'call', 'drink', 'eat', 'sleep', 'run', 'walk', 'talk', 'speak',
     'say', 'help', 'start', 'stop', 'move', 'write', 'read', 'pay', 'buy', 'sell',
-    # Common Adjectives & Adverbs
-    'good', 'bad', 'great', 'high', 'low', 'big', 'small', 'long', 'short',
+    # Common Adjectives & Adverbs (hapus yang ambiguous: not, no, well, good, bad, etc)
+    'great', 'high', 'low', 'big', 'small', 'long', 'short',
     'new', 'old', 'right', 'wrong', 'happy', 'sad', 'angry', 'afraid', 'brave',
     'beautiful', 'ugly', 'expensive', 'cheap', 'fast', 'slow', 'hard', 'soft',
     'actually', 'literally', 'basically', 'totally', 'honestly', 'probably',
-    'maybe', 'please', 'thanks', 'sorry', 'excuse', 'hello', 'hi', 'bye',
-    'not', 'no', 'yes', 'yeah', 'yep', 'nope', 'never', 'always', 'ever',
-    'day', 'night', 'time', 'year', 'people', 'way', 'life', 'man', 'woman'
+    'maybe', 'please', 'thanks', 'sorry', 'excuse', 'hello', 'bye',
+    'yeah', 'yep', 'nope', 'never', 'always', 'ever',
+    'people', 'life', 'man', 'woman', 'love', 'really', 'very', 'just'
 }
 
 def automated_labeling(text):
+    """
+    Pelabelan otomatis dengan threshold berbasis RASIO.
+    MIX hanya jika kedua bahasa cukup seimbang (25-75%) DAN minimal 2 kata masing-masing.
+    """
     if not isinstance(text, str): return 'ID'
     text_clean = text.lower()
     text_clean = re.sub(r'[^a-z\s]', ' ', text_clean)
@@ -97,9 +101,24 @@ def automated_labeling(text):
     id_score = len(word_set.intersection(indo_markers))
     en_score = len(word_set.intersection(eng_markers))
     
-    if id_score >= 1 and en_score >= 1: return 'MIX' 
-    elif en_score > id_score: return 'EN'
-    else: return 'ID'
+    total_markers = id_score + en_score
+    
+    # Jika tidak ada marker sama sekali, default ke ID
+    if total_markers == 0: return 'ID'
+    
+    # Hitung rasio
+    id_ratio = id_score / total_markers
+    en_ratio = en_score / total_markers
+    
+    # MIX: kedua bahasa harus cukup seimbang (25-75%) DAN minimal 2 kata masing-masing
+    if id_score >= 2 and en_score >= 2 and 0.25 <= id_ratio <= 0.75:
+        return 'MIX'
+    # EN: mayoritas marker adalah English
+    elif en_ratio > 0.6 or (en_score >= 2 and id_score == 0):
+        return 'EN'
+    # ID: default atau mayoritas Indonesia
+    else:
+        return 'ID'
 
 # 3. Terapkan Pelabelan
 print("[...] Sedang menjalankan algoritma pelabelan otomatis...")
@@ -143,6 +162,29 @@ X_train, X_test, y_train, y_test = train_test_split(
     random_state=42,
     stratify=df['label_bahasa']
 )
+
+# 5. OVERSAMPLING untuk menyeimbangkan data training
+print("[...] Melakukan oversampling untuk menyeimbangkan kelas...")
+train_df = pd.DataFrame({'text': X_train.values, 'label': y_train.values})
+
+
+# Hitung jumlah sampel per kelas
+class_counts = train_df['label'].value_counts()
+max_count = class_counts.max()
+
+# Oversample setiap kelas agar seimbang
+balanced_dfs = []
+for label in class_counts.index:
+    class_df = train_df[train_df['label'] == label]
+    # Oversample dengan replacement jika perlu
+    oversampled = class_df.sample(n=max_count, replace=True, random_state=42)
+    balanced_dfs.append(oversampled)
+
+train_balanced = pd.concat(balanced_dfs).sample(frac=1, random_state=42).reset_index(drop=True)
+X_train = train_balanced['text']
+y_train = train_balanced['label']
+
+print(f"[✓] Data training diseimbangkan: {len(train_balanced)} sampel ({max_count} per kelas)")
 
 print(f"[INFO] Data Latih : {len(X_train)} sampel")
 print(f"[INFO] Data Uji   : {len(X_test)} sampel")

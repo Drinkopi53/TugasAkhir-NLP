@@ -28,30 +28,62 @@ st.set_page_config(
 # 1. Definisi Lexicon (Kamus) - Disimpan di cache agar cepat
 @st.cache_data
 def get_lexicons():
+    # CATATAN: Kata-kata ambiguous yang sering muncul di konteks Indonesia dihapus
     indo_markers = {
-        'aku', 'kamu', 'dia', 'kita', 'mereka', 'ini', 'itu', 'dan', 'atau', 'tapi',
-        'yang', 'di', 'ke', 'dari', 'bisa', 'mau', 'sudah', 'udah', 'lagi', 'lg',
-        'gak', 'ga', 'nggak', 'tak', 'jangan', 'sama', 'bgt', 'banget', 'dong', 'sih',
-        'kok', 'deh', 'kan', 'kalo', 'kalau', 'buat', 'utk', 'untuk', 'dgn', 'dengan',
-        'apa', 'kenapa', 'gimana', 'siapa', 'kapan', 'ya', 'yuk', 'wkwk', 'hehe', 
-        'pake', 'pakai', 'ada', 'jadi', 'jd', 'bukan', 'krn', 'karena', 'yg', 'tidak',
-        'bapak', 'ibu', 'mas', 'mbak', 'kak', 'bang', 'nasi', 'makan', 'minum'
+        # Kata Ganti & Tunjuk
+        'aku', 'kamu', 'dia', 'kita', 'mereka', 'ini', 'itu', 'sini', 'situ', 'sana',
+        'gue', 'lu', 'lo', 'gw', 'anda', 'saya', 'kalian',
+        # Kata Sambung & Depan
+        'dan', 'atau', 'tapi', 'tetapi', 'karena', 'krn', 'jika', 'kalau', 'kalo', 
+        'yang', 'yg', 'dari', 'pada', 'dalam', 'untuk', 'utk', 'buat', 
+        'dengan', 'dgn', 'sama', 'bisa', 'dapat', 'akan', 'ingin', 'mau', 'sudah', 
+        'telah', 'sedang', 'lagi', 'lg', 'masih', 'belum', 'blm',
+        # Kata Tanya & Seru
+        'apa', 'kenapa', 'knp', 'mengapa', 'gimana', 'bagaimana', 'siapa', 'kapan', 
+        'dimana', 'kok', 'sih', 'dong', 'deh', 'kan', 'yuk', 'wkwk', 'hehe', 'haha',
+        'wah', 'nah', 'loh', 'lah', 'kah', 'pun',
+        # Kata Kerja & Sifat Umum
+        'makan', 'minum', 'tidur', 'jalan', 'lihat', 'dengar', 'baca', 'tulis', 
+        'beli', 'jual', 'bayar', 'kerja', 'suka', 'cinta', 'benci', 'marah',
+        'senang', 'sedih', 'takut', 'berani', 'malu', 'bangga', 'bagus', 'jelek',
+        'baik', 'jahat', 'benar', 'salah', 'cepat', 'lambat', 'mahal', 'murah',
+        'terima', 'kasih', 'tolong', 'maaf', 'selamat', 'pagi', 'siang', 'malam',
+        'rumah', 'orang', 'anak', 'hari', 'tahun', 'waktu', 'uang', 'harga',
+        'tidak', 'tak', 'gak', 'ga', 'nggak', 'bukan', 'jangan', 'usah', 'udah'
     }
 
     eng_markers = {
-        'i', 'you', 'he', 'she', 'we', 'they', 'it', 'this', 'that', 'and', 'or', 'but',
-        'which', 'who', 'what', 'where', 'when', 'why', 'how', 'is', 'am', 'are', 'was',
-        'were', 'be', 'been', 'have', 'has', 'had', 'do', 'does', 'did', 'can', 'could',
-        'will', 'would', 'should', 'to', 'of', 'in', 'on', 'at', 'for', 'with', 'by',
-        'from', 'about', 'just', 'like', 'so', 'not', 'no', 'yes', 'please', 'thanks',
-        'my', 'your', 'actually', 'literally', 'basically', 'prefer', 'guys', 'sorry',
-        'going', 'go', 'want', 'need', 'love', 'city', 'place', 'town', 'today', 'now',
-        'work', 'job', 'office', 'meeting', 'deadline', 'submit', 'assignment'
+        # Pronouns & Prepositions (hapus yang ambiguous: in, on, as, be, so)
+        'i', 'you', 'he', 'she', 'we', 'they', 'this', 'that', 'these', 'those',
+        'my', 'your', 'his', 'her', 'our', 'their', 'mine', 'yours',
+        'for', 'with', 'from', 'about', 'into', 'through', 'after', 'over', 'between', 'against',
+        # Conjunctions & Verbs (Auxiliary) - hapus yang ambiguous
+        'and', 'because', 'when', 'where', 'why', 'how',
+        'is', 'am', 'are', 'was', 'were', 'been', 'being',
+        'have', 'has', 'had', 'does', 'did', 'done',
+        'can', 'could', 'will', 'would', 'shall', 'should', 'may', 'might', 'must',
+        # Common Verbs (Action)
+        'want', 'need', 'know', 'think', 'take', 'see', 'get', 'give', 'come',
+        'make', 'look', 'use', 'find', 'tell', 'ask', 'seem', 'feel', 'try',
+        'leave', 'call', 'drink', 'eat', 'sleep', 'run', 'walk', 'talk', 'speak',
+        'say', 'help', 'start', 'stop', 'move', 'write', 'read', 'pay', 'buy', 'sell',
+        # Common Adjectives & Adverbs (hapus yang ambiguous: not, no, well, good, bad, etc)
+        'great', 'high', 'low', 'big', 'small', 'long', 'short',
+        'new', 'old', 'right', 'wrong', 'happy', 'sad', 'angry', 'afraid', 'brave',
+        'beautiful', 'ugly', 'expensive', 'cheap', 'fast', 'slow', 'hard', 'soft',
+        'actually', 'literally', 'basically', 'totally', 'honestly', 'probably',
+        'maybe', 'please', 'thanks', 'sorry', 'excuse', 'hello', 'bye',
+        'yeah', 'yep', 'nope', 'never', 'always', 'ever',
+        'people', 'life', 'man', 'woman', 'love', 'really', 'very', 'just'
     }
     return indo_markers, eng_markers
 
-# 2. Fungsi Pelabelan Otomatis
+# 2. Fungsi Pelabelan Otomatis (Ratio-Based Threshold)
 def automated_labeling(text, indo_markers, eng_markers):
+    """
+    Pelabelan otomatis dengan threshold berbasis RASIO.
+    MIX hanya jika kedua bahasa cukup seimbang (25-75%) DAN minimal 2 kata masing-masing.
+    """
     if not isinstance(text, str): return 'ID'
     text_clean = text.lower()
     text_clean = re.sub(r'[^a-z\s]', ' ', text_clean)
@@ -62,9 +94,24 @@ def automated_labeling(text, indo_markers, eng_markers):
     id_score = len(word_set.intersection(indo_markers))
     en_score = len(word_set.intersection(eng_markers))
     
-    if id_score >= 1 and en_score >= 1: return 'MIX' 
-    elif en_score > id_score: return 'EN'
-    else: return 'ID'
+    total_markers = id_score + en_score
+    
+    # Jika tidak ada marker sama sekali, default ke ID
+    if total_markers == 0: return 'ID'
+    
+    # Hitung rasio
+    id_ratio = id_score / total_markers
+    en_ratio = en_score / total_markers
+    
+    # MIX: kedua bahasa harus cukup seimbang (25-75%) DAN minimal 2 kata masing-masing
+    if id_score >= 2 and en_score >= 2 and 0.25 <= id_ratio <= 0.75:
+        return 'MIX'
+    # EN: mayoritas marker adalah English
+    elif en_ratio > 0.6 or (en_score >= 2 and id_score == 0):
+        return 'EN'
+    # ID: default atau mayoritas Indonesia
+    else:
+        return 'ID'
 
 # 3. Fungsi Preprocessing
 def clean_text_final(text):
@@ -97,6 +144,21 @@ def train_model():
         stratify=df['label_bahasa']
     )
     
+    # OVERSAMPLING untuk menyeimbangkan data training
+    train_df = pd.DataFrame({'text': X_train.values, 'label': y_train.values})
+    class_counts = train_df['label'].value_counts()
+    max_count = class_counts.max()
+    
+    balanced_dfs = []
+    for label in class_counts.index:
+        class_df = train_df[train_df['label'] == label]
+        oversampled = class_df.sample(n=max_count, replace=True, random_state=42)
+        balanced_dfs.append(oversampled)
+    
+    train_balanced = pd.concat(balanced_dfs).sample(frac=1, random_state=42).reset_index(drop=True)
+    X_train = train_balanced['text']
+    y_train = train_balanced['label']
+    
     # Training Pipeline
     model = make_pipeline(
         TfidfVectorizer(ngram_range=(1, 2), max_features=5000), 
@@ -107,12 +169,13 @@ def train_model():
     # Evaluasi
     y_pred = model.predict(X_test)
     acc = accuracy_score(y_test, y_pred)
-    report = classification_report(y_test, y_pred, output_dict=True)
+    report = classification_report(y_test, y_pred, output_dict=True, zero_division=0)
     
     # Confusion Matrix
     cm = confusion_matrix(y_test, y_pred, labels=['ID', 'EN', 'MIX'])
     
     return model, acc, report, df, cm
+
 
 # ==========================================
 # TAMPILAN FRONTEND (WEBSITE)

@@ -2,6 +2,9 @@ import pandas as pd
 import numpy as np
 import random
 
+# Set seed agar hasil simulasi konsisten (reproducible)
+random.seed(42)
+
 print("=== GENERATOR VALIDASI GOLD STANDARD OTOMATIS ===")
 
 # 1. Muat Dataset Hasil Weak Supervision
